@@ -22,9 +22,9 @@ var _mixinsListener = require('../mixins/listener');
 
 var _mixinsListener2 = _interopRequireDefault(_mixinsListener);
 
-var _utilsCompareProps = require('../utils/compare-props');
+var _utilsGetChangedProps = require('../utils/get-changed-props');
 
-var _utilsCompareProps2 = _interopRequireDefault(_utilsCompareProps);
+var _utilsGetChangedProps2 = _interopRequireDefault(_utilsGetChangedProps);
 
 exports['default'] = function (name, latLngProp, events) {
   return (0, _createReactClass2['default'])({
@@ -40,8 +40,10 @@ exports['default'] = function (name, latLngProp, events) {
     },
 
     componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-      if (!(0, _utilsCompareProps2['default'])(this.props, nextProps)) {
-        var options = this.getOptions(nextProps);
+      var changedProps = (0, _utilsGetChangedProps2['default'])(this.props, nextProps);
+
+      if (Object.keys(changedProps).length) {
+        var options = this.getOptions(changedProps);
         this.entity.setOptions(options);
       }
     },

@@ -2,6 +2,7 @@ jest.dontMock('object-assign');
 jest.dontMock('../../mixins/listener');
 jest.dontMock('../../utils/google-maps');
 jest.dontMock('../../utils/compare-props');
+jest.dontMock('../../utils/get-changed-props');
 jest.dontMock('../gmaps');
 
 describe('Gmaps', () => {

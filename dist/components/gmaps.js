@@ -36,9 +36,9 @@ var _utilsGoogleMaps = require('../utils/google-maps');
 
 var _utilsGoogleMaps2 = _interopRequireDefault(_utilsGoogleMaps);
 
-var _utilsCompareProps = require('../utils/compare-props');
+var _utilsGetChangedProps = require('../utils/get-changed-props');
 
-var _utilsCompareProps2 = _interopRequireDefault(_utilsCompareProps);
+var _utilsGetChangedProps2 = _interopRequireDefault(_utilsGetChangedProps);
 
 var Gmaps = (0, _createReactClass2['default'])({
 
@@ -64,10 +64,18 @@ var Gmaps = (0, _createReactClass2['default'])({
   },
 
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    if (this.map && !(0, _utilsCompareProps2['default'])(this.props, nextProps)) {
-      this.map.setOptions(_extends({}, nextProps, {
-        center: new google.maps.LatLng(nextProps.lat, nextProps.lng)
-      }));
+    if (this.map) {
+      var changedProps = (0, _utilsGetChangedProps2['default'])(this.props, nextProps);
+
+      if (Object.keys(changedProps).length) {
+        var options = changedProps;
+
+        if (options.lat && options.lng) {
+          options.center = new google.maps.LatLng(nextProps.lat, nextProps.lng);
+        }
+
+        this.map.setOptions(options);
+      }
     }
   },
 

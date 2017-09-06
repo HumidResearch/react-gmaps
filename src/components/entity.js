@@ -1,7 +1,7 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
 import Listener from '../mixins/listener';
-import compareProps from '../utils/compare-props';
+import getChangedProps from '../utils/get-changed-props';
 
 export default (name, latLngProp, events) => {
   return createReactClass({
@@ -17,8 +17,10 @@ export default (name, latLngProp, events) => {
     },
 
     componentWillReceiveProps(nextProps) {
-      if (!compareProps(this.props, nextProps)) {
-        const options = this.getOptions(nextProps);
+      const changedProps = getChangedProps(this.props, nextProps);
+
+      if (Object.keys(changedProps).length) {
+        const options = this.getOptions(changedProps);
         this.entity.setOptions(options);
       }
     },

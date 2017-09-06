@@ -1,5 +1,6 @@
 jest.dontMock('../../mixins/listener');
 jest.dontMock('../../utils/compare-props');
+jest.dontMock('../../utils/get-changed-props');
 jest.dontMock('../entity');
 
 describe('Entity', () => {

@@ -5,7 +5,7 @@ import objectAssign from 'object-assign';
 import MapEvents from '../events/map';
 import Listener from '../mixins/listener';
 import GoogleMaps from '../utils/google-maps';
-import compareProps from '../utils/compare-props';
+import getChangedProps from '../utils/get-changed-props';
 
 const Gmaps = createReactClass({
 
@@ -31,11 +31,18 @@ const Gmaps = createReactClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (this.map && !compareProps(this.props, nextProps)) {
-      this.map.setOptions({
-        ...nextProps,
-        center: new google.maps.LatLng(nextProps.lat, nextProps.lng)
-      });
+    if (this.map) {
+      const changedProps = getChangedProps(this.props, nextProps);
+
+      if (Object.keys(changedProps).length) {
+        const options = changedProps;
+
+        if (options.lat && options.lng) {
+          options.center = new google.maps.LatLng(nextProps.lat, nextProps.lng);
+        }
+
+        this.map.setOptions(options);
+      }
     }
   },
 
